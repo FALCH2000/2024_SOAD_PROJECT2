@@ -1,8 +1,25 @@
+# Description: Este archivo contiene la lógica de negocio para la gestión de reservaciones en el restaurante.
+# Se definen las funciones para obtener la disponibilidad de las mesas, hacer una reservación, editar una reservación y eliminar una reservación.
+# Se utiliza un archivo JSON para almacenar la disponibilidad de las mesas y otro archivo JSON para almacenar las reservaciones.
+# Se implementan las funciones para realizar las operaciones de gestión de reservaciones y se exponen como una Cloud Function de Google Cloud Functions.
+
 import functions_framework
 from markupsafe import escape
 import json
 import uuid
 
+
+
+def get_last_id():
+    """Obtiene el último ID de reservación."""
+    with open('./data/reservaciones.json', 'r') as file:
+        reservaciones = json.load(file)
+    last_id = 0
+    if len(reservaciones["Reservaciones"]) == 0:
+        return last_id
+    for reservacion in reservaciones["Reservaciones"]:
+        last_id = reservacion["id_reservacion"]
+    return last_id
 
 def obtener_disponibilidad_json():
     """Obtiene la disponibilidad de las mesas en formato JSON."""
@@ -13,7 +30,7 @@ def obtener_disponibilidad_json():
 def hacer_reservacion(nombre, cedula, dia, hora, mesa):
     """Realiza una reservación en el restaurante."""
     # Generar un ID de reservación único
-    id_reservacion = str(uuid.uuid4())
+    id_reservacion = get_last_id() + 1
 
     # Crear el objeto de reservación
     reservacion = {
@@ -154,5 +171,6 @@ def gestionar_reservacion(request):
     elif path == "/eliminar" and request.method == 'DELETE':
         return f"{eliminar_reservacion(request_json['nombre'], request_json['cedula'], request_json['dia'], request_json['hora'], request_json['mesa'], request_json['id_reservacion'])}"
     else:
+        return f"{get_last_id()}"
         return f"Error: Método no válido."
 
