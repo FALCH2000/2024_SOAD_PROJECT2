@@ -3,4 +3,3 @@
 functions-framework==3.*
 requests==2.*
 pytest==6.*
-pytest-mock==3.*

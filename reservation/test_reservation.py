@@ -53,7 +53,8 @@ def test_editar_reservacion():
     dia = "2024-04-07"
     hora = "12:00"
     mesa = 2
-    id_reservacion = 2
+    reservacion = json.loads(reservacion)
+    id_reservacion = reservacion["id_reservacion"]
     reservacion = editar_reservacion(nombre, cedula, dia, hora, mesa, id_reservacion)
     assert reservacion != json.dumps("Mesa no disponible", ensure_ascii=False)
 
@@ -67,7 +68,8 @@ def test_eliminar_reservacion():
     reservacion = hacer_reservacion(nombre, cedula, dia, hora, mesa)
     assert reservacion != json.dumps("Mesa no disponible", ensure_ascii=False)
     # Eliminar la reservación creada
-    reservacion_original = 3
+    reservacion = json.loads(reservacion)
+    reservacion_original = reservacion["id_reservacion"]
     reservacion = eliminar_reservacion(nombre, cedula, dia, hora, mesa, reservacion_original)
     assert reservacion == json.dumps("Exito", ensure_ascii=False)
 

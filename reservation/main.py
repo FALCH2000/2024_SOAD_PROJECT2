@@ -8,8 +8,6 @@ from markupsafe import escape
 import json
 import uuid
 
-
-
 def get_last_id():
     """Obtiene el último ID de reservación."""
     with open('./data/reservaciones.json', 'r') as file:
