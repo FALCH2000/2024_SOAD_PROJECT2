@@ -169,6 +169,5 @@ def gestionar_reservacion(request):
     elif path == "/eliminar" and request.method == 'DELETE':
         return f"{eliminar_reservacion(request_json['nombre'], request_json['cedula'], request_json['dia'], request_json['hora'], request_json['mesa'], request_json['id_reservacion'])}"
     else:
-        return f"{get_last_id()}"
         return f"Error: Método no válido."
 
