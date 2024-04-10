@@ -27,8 +27,8 @@ def get_recommendation(request):
         params = {
             "MealName1": request_args['MealName1'],
             "CourseType1": request_args['CourseType1'],
-            "MealName1": request_args['MealName2'],
-            "CourseType1": request_args['CourseType2']
+            "MealName2": request_args['MealName2'],
+            "CourseType2": request_args['CourseType2']
         }
 
     url = "https://7d78g8kc-5082.use2.devtunnels.ms/api/Meal"
