@@ -1,0 +1,154 @@
+{
+    "disponibilidad": [
+        {
+            "dia": "2024-04-07",
+            "horas": [
+                {
+                    "hora": "10:00",
+                    "mesas": {
+                        "1": true,
+                        "2": true,
+                        "3": true,
+                        "4": true,
+                        "5": true,
+                        "6": true,
+                        "7": true,
+                        "8": true,
+                        "9": true,
+                        "10": true
+                    }
+                },
+                {
+                    "hora": "12:00",
+                    "mesas": {
+                        "1": true,
+                        "2": true,
+                        "3": true,
+                        "4": true,
+                        "5": true,
+                        "6": true,
+                        "7": true,
+                        "8": true,
+                        "9": true,
+                        "10": true
+                    }
+                },
+                {
+                    "hora": "14:00",
+                    "mesas": {
+                        "1": true,
+                        "2": true,
+                        "3": true,
+                        "4": true,
+                        "5": true,
+                        "6": true,
+                        "7": true,
+                        "8": true,
+                        "9": true,
+                        "10": true
+                    }
+                }
+            ]
+        },
+        {
+            "dia": "2024-04-08",
+            "horas": [
+                {
+                    "hora": "11:00",
+                    "mesas": {
+                        "1": true,
+                        "2": true,
+                        "3": true,
+                        "4": true,
+                        "5": true,
+                        "6": true,
+                        "7": true,
+                        "8": true,
+                        "9": true,
+                        "10": true
+                    }
+                },
+                {
+                    "hora": "13:00",
+                    "mesas": {
+                        "1": true,
+                        "2": true,
+                        "3": true,
+                        "4": true,
+                        "5": true,
+                        "6": true,
+                        "7": true,
+                        "8": true,
+                        "9": true,
+                        "10": true
+                    }
+                },
+                {
+                    "hora": "15:00",
+                    "mesas": {
+                        "1": true,
+                        "2": true,
+                        "3": true,
+                        "4": true,
+                        "5": true,
+                        "6": true,
+                        "7": true,
+                        "8": true,
+                        "9": true,
+                        "10": true
+                    }
+                }
+            ]
+        },
+        {
+            "dia": "2024-04-09",
+            "horas": [
+                {
+                    "hora": "12:00",
+                    "mesas": {
+                        "1": true,
+                        "2": true,
+                        "3": true,
+                        "4": true,
+                        "5": true,
+                        "6": true,
+                        "7": true,
+                        "8": true,
+                        "9": true,
+                        "10": true
+                    }
+                },
+                {
+                    "hora": "14:00",
+                    "mesas": {
+                        "1": true,
+                        "2": true,
+                        "3": true,
+                        "4": true,
+                        "5": true,
+                        "6": true,
+                        "7": true,
+                        "8": true,
+                        "9": true,
+                        "10": true
+                    }
+                },
+                {
+                    "hora": "16:00",
+                    "mesas": {
+                        "1": true,
+                        "2": true,
+                        "3": true,
+                        "4": true,
+                        "5": true,
+                        "6": true,
+                        "7": true,
+                        "8": true,
+                        "9": true,
+                        "10": true
+                    }
+                }
+            ]
+        }
+    ]
+}
