@@ -84,13 +84,16 @@ def test_eliminar_reservacion():
     assert reservacion != json.dumps(respuesta, ensure_ascii=False)
     # Eliminar la reservación creada
     reservacion = json.loads(reservacion)
+    print(reservacion)
     reservacion_original = reservacion["data"]["id_reservacion"]
+    print(reservacion_original)
     reservacion = eliminar_reservacion(nombre, cedula, dia, hora, mesa, reservacion_original)
     respuesta = {
-                "status_code": 200,
-                "message": "OK",
-                "data": ""
-            }
+        "status_code": 200,
+        "message": "OK",
+        "data": ""
+    }
+    print(reservacion)
     assert reservacion == json.dumps(respuesta, ensure_ascii=False)
 
 def test_restaurar_json_originales():

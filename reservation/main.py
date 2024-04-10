@@ -171,13 +171,6 @@ def eliminar_reservacion(nombre, cedula, dia, hora, mesa, reservacion_original):
                             for disponibilidad_mesa in disponibilidad_hora["mesas"]:
                                 if disponibilidad_mesa == str(mesa) and disponibilidad_hora["mesas"][disponibilidad_mesa] == False:
                                     disponibilidad_hora["mesas"][disponibilidad_mesa] = True
-                                else:
-                                    respuesta = {
-                                        "status_code": 400,
-                                        "message": "Error: Mesa no coincide con reservación.",
-                                        "data": ""
-                                    }
-                                    return json.dumps(respuesta, ensure_ascii=False)
             with open('./data/disponibilidad.json', 'w') as file:
                 json.dump(disponibilidad, file, indent=4)
             
@@ -190,13 +183,12 @@ def eliminar_reservacion(nombre, cedula, dia, hora, mesa, reservacion_original):
                 "data": ""
             }
             return json.dumps(respuesta, ensure_ascii=False)
-        else:
-            respuesta = {
-                "status_code": 400,
-                "message": "Error: Reservación no encontrada.",
-                "data": ""
-            }
-            return json.dumps(respuesta, ensure_ascii=False)
+    respuesta = {
+        "status_code": 400,
+        "message": "Error: Reservación no encontrada.",
+        "data": ""
+    }
+    return json.dumps(respuesta, ensure_ascii=False)
 
 @functions_framework.http
 def gestionar_reservacion(request):
