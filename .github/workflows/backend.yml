@@ -89,7 +89,6 @@ jobs:
             --region=us-central1 \
             --source=. \
             --entry-point=gestionar_reservacion \
-            --allow-unauthenticated
 
       # Agregar política IAM para permitir acceso sin autenticación
       - name: Allow unauthenticated access to Reservation Cloud Function
