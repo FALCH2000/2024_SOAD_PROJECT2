@@ -80,14 +80,10 @@ jobs:
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           export_default_credentials: true
 
-      - name: Deploy Reservation Cloud Function
+      - name: Deploy Cloud Function
         run: |
-          gcloud functions deploy reservacion \
-            --gen2 \
-            --runtime python312 \
+          gcloud functions deploy gestionar_reservacion \
+            --runtime python38 \
             --trigger-http \
-            --region=us-central1 \
-            --source=. \
-            --entry-point=gestionar_reservacion \
-            --allow-unauthenticated
+            --region us-central1
 
