@@ -82,13 +82,20 @@ jobs:
 
       - name: Deploy Reservation Cloud Function
         run: |
-          gcloud functions add-iam-policy-binding reservacion \
+          gcloud functions deploy reservacion \
             --gen2 \
             --runtime python312 \
             --trigger-http \
             --region=us-central1 \
             --source=. \
             --entry-point=gestionar_reservacion \
+            --allow-unauthenticated
+
+      # Agregar política IAM para permitir acceso sin autenticación
+      - name: Allow unauthenticated access to Reservation Cloud Function
+        run: |
+          gcloud functions add-iam-policy-binding reservacion \
+            --region=us-central1 \
             --member=allUsers \
             --role=roles/cloudfunctions.invoker
 
