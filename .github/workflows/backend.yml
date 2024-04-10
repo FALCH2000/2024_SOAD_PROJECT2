@@ -82,12 +82,11 @@ jobs:
 
       - name: Deploy Reservation Cloud Function
         run: |
-          gcloud functions deploy reservacion \
+          gcloud functions deploy add-iam-policy-binding reservacion \
             --gen2 \
             --runtime python312 \
             --trigger-http \
             --region=us-central1 \
             --source=. \
             --entry-point=gestionar_reservacion \
-            --allow-unauthenticated
 
