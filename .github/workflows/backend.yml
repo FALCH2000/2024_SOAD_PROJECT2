@@ -89,12 +89,5 @@ jobs:
             --region=us-central1 \
             --source=. \
             --entry-point=gestionar_reservacion \
-
-      # Agregar política IAM para permitir acceso sin autenticación
-      - name: Allow unauthenticated access to Reservation Cloud Function
-        run: |
-          gcloud functions add-iam-policy-binding reservacion \
-            --region=us-central1 \
-            --member=allUsers \
-            --role=roles/cloudfunctions.invoker
+            --allow-unauthenticated
 
