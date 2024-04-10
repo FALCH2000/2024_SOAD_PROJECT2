@@ -44,9 +44,9 @@ def chatbot_http(request):
         if request_args and "texto" in request_args:
             text = request_args["texto"]
             # ESTAS 2 LINEAS CONSUMEN CREDITOS SI SE USAN
-            #sentiment = analyze_text(text)
-            #kind = interpret_sentiment(sentiment.score)
-            answer = generateAnswer('Neutral')
+            sentiment = analyze_text(text)
+            kind = interpret_sentiment(sentiment.score)
+            answer = {"answer": generateAnswer(kind)}
             return json.dumps(answer, ensure_ascii=False) 
         else:
             return json.dumps({"error": "No se ha enviado el texto a analizar"}, ensure_ascii=False)
