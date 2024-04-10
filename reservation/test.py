@@ -20,10 +20,10 @@ reservacion_data = {
     "mesa": "8"
 }
 response = requests.post(url, json=reservacion_data)
-datos = response.json()
+datos = json.loads(response.text)
 print("Estado de la solicitud POST:", response.status_code)
 print("Respuesta del servidor POST:", response.text)
-print("Datos de la reservación:", datos["nombre"])
+print("Datos de la reservación:", datos["data"]["nombre"])
 # Realizar una solicitud PUT para editar la reservación
 
 url = 'http://localhost:8080/editar'
@@ -32,10 +32,12 @@ datos["cedula"] = "118670690"
 datos["dia"] = "2024-04-07"
 datos["hora"] = "12:00"
 datos["mesa"] = "7"
+datos["id_reservacion"] = datos["data"]["id_reservacion"]
 response = requests.put(url, json=datos)
+mis_datos = json.loads(response.text)
 print("Estado de la solicitud PUT:", response.status_code)
 print("Respuesta del servidor PUT:", response.text)
-print("Datos de la reservación editada:", response.json()["nombre"])
+print("Datos de la reservación editada:", mis_datos["data"]["nombre"])
 
 # Realizar una solicitud DELETE para eliminar la reservación
 """

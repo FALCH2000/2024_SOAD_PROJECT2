@@ -26,7 +26,12 @@ def test_agregar_reservacion():
     hora = "10:00"
     mesa = 1
     reservacion = hacer_reservacion(nombre, cedula, dia, hora, mesa)
-    assert reservacion != json.dumps("Mesa no disponible", ensure_ascii=False)
+    respuesta = {
+        "status_code": 400,
+        "message": "Error: Mesa no disponible.",
+        "data": ""
+    }
+    assert reservacion != json.dumps(respuesta, ensure_ascii=False)
 
     # Crear una reservación en una mesa no disponible
     nombre = "Juan"
@@ -35,7 +40,7 @@ def test_agregar_reservacion():
     hora = "10:00"
     mesa = 1
     reservacion = hacer_reservacion(nombre, cedula, dia, hora, mesa)
-    assert reservacion == json.dumps("Mesa no disponible", ensure_ascii=False)
+    assert reservacion == json.dumps(respuesta, ensure_ascii=False)
 
 def test_editar_reservacion():
     # Crear una reservación para editar
@@ -45,7 +50,12 @@ def test_editar_reservacion():
     hora = "12:00"
     mesa = 1
     reservacion = hacer_reservacion(nombre, cedula, dia, hora, mesa)
-    assert reservacion != json.dumps("Mesa no disponible", ensure_ascii=False)
+    respuesta = {
+        "status_code": 400,
+        "message": "Error: Mesa no disponible.",
+        "data": ""
+    }
+    assert reservacion != json.dumps(respuesta, ensure_ascii=False)
     
     # Editar la reservación creada
     nombre = "Justin Fernandez"
@@ -54,9 +64,9 @@ def test_editar_reservacion():
     hora = "12:00"
     mesa = 2
     reservacion = json.loads(reservacion)
-    id_reservacion = reservacion["id_reservacion"]
+    id_reservacion = reservacion["data"]["id_reservacion"]
     reservacion = editar_reservacion(nombre, cedula, dia, hora, mesa, id_reservacion)
-    assert reservacion != json.dumps("Mesa no disponible", ensure_ascii=False)
+    assert reservacion != json.dumps(respuesta, ensure_ascii=False)
 
 def test_eliminar_reservacion():
     # Crear una reservación para eliminar
@@ -66,12 +76,22 @@ def test_eliminar_reservacion():
     hora = "10:00"
     mesa = 6
     reservacion = hacer_reservacion(nombre, cedula, dia, hora, mesa)
-    assert reservacion != json.dumps("Mesa no disponible", ensure_ascii=False)
+    respuesta = {
+        "status_code": 400,
+        "message": "Error: Mesa no disponible.",
+        "data": ""
+    }
+    assert reservacion != json.dumps(respuesta, ensure_ascii=False)
     # Eliminar la reservación creada
     reservacion = json.loads(reservacion)
-    reservacion_original = reservacion["id_reservacion"]
+    reservacion_original = reservacion["data"]["id_reservacion"]
     reservacion = eliminar_reservacion(nombre, cedula, dia, hora, mesa, reservacion_original)
-    assert reservacion == json.dumps("Exito", ensure_ascii=False)
+    respuesta = {
+                "status_code": 200,
+                "message": "OK",
+                "data": ""
+            }
+    assert reservacion == json.dumps(respuesta, ensure_ascii=False)
 
 def test_restaurar_json_originales():
     # Restaurar los archivos originales
