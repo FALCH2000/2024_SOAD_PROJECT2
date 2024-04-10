@@ -3,6 +3,7 @@ name: Deploy Cloud Functions
 on:
   push:
     branches:
+        - yml_reservation
         - meal_recommendation
         - reservation
 
