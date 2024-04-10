@@ -48,7 +48,6 @@ jobs:
             --allow-unauthenticated
 
   deploy_reservation:
-    needs: test
     if: github.ref == 'refs/heads/reservation'
     runs-on: ubuntu-latest
 
