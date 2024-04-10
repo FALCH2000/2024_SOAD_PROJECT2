@@ -1,12 +1,15 @@
-name: Deploy Cloud Function
+name: Deploy Cloud Functions
 
 on:
   push:
     branches:
-      - meal_recommendation
+        - yml_reservation
+        - meal_recommendation
+        - reservation
 
 jobs:
-  deploy:
+  deploy_meal_recommendation:
+    if: github.ref == 'refs/heads/meal_recommendation'
     runs-on: ubuntu-latest
 
     steps:
@@ -16,15 +19,53 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'  
+          python-version: '3.12'  
 
       - name: Install dependencies
         run: |
           pip install -r meal_recommendation/requirements.txt
 
-      - name: Copy function code
+      - name: Copy meal recommendation function code
         run: |
           cp -r meal_recommendation/* $GITHUB_WORKSPACE/
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Deploy Meal Recommendation Cloud Function
+        run: |
+          gcloud functions deploy MEAL_RECOMMENDATION_FUNCTION_NAME \
+            --gen2
+            --runtime python312 \
+            --trigger-http \
+            --region us-central1 \
+            --source=. \
+            --entry-point=get_recommendation \
+            --allow-unauthenticated
+
+  deploy_reservation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.12'  
+
+      - name: Install dependencies
+        run: |
+          pip install -r reservation/requirements.txt
+
+      - name: Copy reservation function code
+        run: |
+          cp -r reservation/* $GITHUB_WORKSPACE/
 
       - name: Authenticate with gcloud
         uses: google-github-actions/auth@v2
@@ -39,9 +80,14 @@ jobs:
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           export_default_credentials: true
 
-      - name: Deploy Cloud Function
+      - name: Deploy Reservation Cloud Function
         run: |
-          gcloud functions deploy get_recommendation \
-            --runtime python38 \
+          gcloud functions deploy reservacion \
+            --gen2 \
+            --runtime python312 \
             --trigger-http \
-            --region us-central1
+            --region=us-central1 \
+            --source=. \
+            --entry-point=gestionar_reservacion \
+            --allow-unauthenticated
+
