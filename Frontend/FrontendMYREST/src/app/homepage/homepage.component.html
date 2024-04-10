@@ -1,0 +1,10 @@
+<!-- menu.component.html -->
+<div *ngIf="menuItems">
+  <h2>Menú del Restaurante</h2>
+  <ul>
+    <li *ngFor="let menuItem of menuItems | keyvalue">
+      <h3>{{ menuItem.key }}</h3>
+      <p>{{ menuItem.value }}</p>
+    </li>
+  </ul>
+</div>
