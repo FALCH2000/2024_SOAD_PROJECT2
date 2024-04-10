@@ -82,7 +82,7 @@ jobs:
 
       - name: Deploy Reservation Cloud Function
         run: |
-          gcloud functions deploy add-iam-policy-binding reservacion \
+          gcloud functions add-iam-policy-binding deploy reservacion \
             --gen2 \
             --runtime python312 \
             --trigger-http \
