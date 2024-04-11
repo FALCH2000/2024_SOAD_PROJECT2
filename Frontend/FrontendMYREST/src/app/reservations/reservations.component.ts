@@ -56,7 +56,26 @@ export class ReservationsComponent {
   reserve(){
     if(this.selectedTable != "" && this.selectedDay != "" && this.selectedHour != ""
     && this.name != "" && this.id != "") {
-      console.log("Reservado");
+      const reserva = {
+        "dia": this.selectedDay,
+        "hora": this.selectedHour,
+        "mesa": this.selectedTable,
+        "nombre": this.name,
+        "cedula": this.id
+      }
+      console.log(reserva);
+      this.reservationService.reserve(reserva).subscribe((data)=>{
+        if(data.status_code == 200){
+          alert("Reservado");
+          console.log(data);
+        }
+        else{
+          alert("Error al reservar");
+          console.log(data);
+        }
+
+      });
+
     }
     else{
       alert("Por favor llene todos los campos")
