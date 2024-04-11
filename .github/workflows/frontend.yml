@@ -7,51 +7,29 @@ on:
       - frontend
 
 jobs:
-  ci:
+  deploy:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
-
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '18'
 
-      - name: Cache node modules
-        id: cache-nodemodules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: Frontend/FrontendMYREST/node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Frontend/FrontendMYREST/**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - name: Install Dependencies
-        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: |
-          cd Frontend/FrontendMYREST
-          npm install
+      - name: Install dependencies
+        run: npm install
+        working-directory: Frontend/FrontendMYREST # Cambia al directorio donde se encuentra package.json
 
       - name: Build
-        run: |
-          cd Frontend/FrontendMYREST
-          npm run build --configuration=production
-
-      - name: Install angular-cli-ghpages
-        run: npm install -g angular-cli-ghpages
-
+        run: npm run build --configuration=production
+        working-directory: Frontend/FrontendMYREST # Cambia al directorio donde se encuentra package.json
 
       - name: Deploy
-        run: |
-          cd Frontend/FrontendMYREST
-          ngh --dir=dist/frontend-myrest
+        if: success()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.ACTIONS }}
+          publish_dir: Frontend/FrontendMYREST/dist/frontend-myrest # Cambia la ruta del directorio de publicación
+          enable_jekyll: true

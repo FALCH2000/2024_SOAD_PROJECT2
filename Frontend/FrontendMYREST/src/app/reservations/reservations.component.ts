@@ -16,17 +16,17 @@ export class ReservationsComponent {
   constructor(private reservationService:ReservationsService, private http: HttpClient){}
   
   ngOnInit(): void {
-    /*
+    
     this.reservationService.getDisponibilidad().subscribe((data)=>{
       this.disponibilidad = data;
       console.log(this.disponibilidad);
-    }) */
+    }) 
 
-    this.http.get<any>('/assets/disponibilidad.json').subscribe(data => {
+    /*this.http.get<any>('/assets/disponibilidad.json').subscribe(data => {
       this.menuData = data;
       this.menuCategories = Object.keys(this.menuData);
       console.log(this.menuData)
-    });
+    }); */
 
     
   }

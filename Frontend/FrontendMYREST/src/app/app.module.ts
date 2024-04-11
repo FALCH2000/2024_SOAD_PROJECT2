@@ -8,6 +8,9 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { ReservationsComponent } from './reservations/reservations.component';
 import { PrincipalComponent } from './principal/principal.component';
 import { FeedbackComponent } from './feedback/feedback.component';
+import {HashLocationStrategy, LocationStrategy} from "@angular/common";
+
+
 
 @NgModule({
   declarations: [
@@ -22,7 +25,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
