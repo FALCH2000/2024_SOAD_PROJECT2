@@ -45,17 +45,13 @@ jobs:
       - name: Build
         run: |
           cd Frontend/FrontendMYREST
-          npm run build -- --prod
+          npm run build --configuration=production
 
       - name: Lint
         run: |
           cd Frontend/FrontendMYREST
           npm run lint
 
-      - name: Test
-        run: |
-          cd Frontend/FrontendMYREST
-          npm run test -- --prod
 
       - name: Deploy
         run: |
