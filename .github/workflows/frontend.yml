@@ -47,6 +47,9 @@ jobs:
           cd Frontend/FrontendMYREST
           npm run build --configuration=production
 
+      - name: Install angular-cli-ghpages
+        run: npm install -g angular-cli-ghpages
+
 
       - name: Deploy
         run: |
