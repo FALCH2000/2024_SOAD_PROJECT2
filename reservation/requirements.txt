@@ -3,3 +3,4 @@
 functions-framework==3.*
 requests==2.*
 pytest==6.*
+google.cloud==0.34.0
