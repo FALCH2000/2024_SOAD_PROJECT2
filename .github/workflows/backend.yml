@@ -131,7 +131,6 @@ jobs:
             --trigger-http \
             --region us-central1
   deploy_gestionreservacion:
-    needs: tests_gestionreservacion
     runs-on: ubuntu-latest
 
     steps:
