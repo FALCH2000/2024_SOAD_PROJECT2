@@ -1,12 +1,87 @@
-name: Deploy Cloud Function
+name: Deploy Cloud Functions
 
 on:
   push:
     branches:
-      - meal_recommendation
+        - yml_reservation
+        - meal_recommendation
+        - reservation
+        - chatbot
+        - develop
 
 jobs:
-  deploy:
+  tests_chatbot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          pip install -r chatbot/requirements.txt
+
+      - name: Copy code
+        run: |
+          cp -r chatbot/* $GITHUB_WORKSPACE/
+
+      - name: Run tests
+        run: |
+          pytest chatbot
+  tests_gestionreservacion:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          pip install -r reservation/requirements.txt
+
+      - name: Copy code
+        run: |
+          cp -r reservation/* $GITHUB_WORKSPACE/
+
+      - name: Run tests
+        run: |
+          pytest reservation
+  tests_mealrecommendation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          pip install -r meal_recommendation/requirements.txt
+
+      - name: Copy code
+        run: |
+          cp -r meal_recommendation/* $GITHUB_WORKSPACE/
+
+      - name: Run tests
+        run: |
+          # CON UNITTEST
+          python -m unittest meal_recommendation/tests_meal_recommendation.py
+  deploy_mealrecommendation:
+    needs: tests_mealrecommendation
     runs-on: ubuntu-latest
 
     steps:
@@ -26,16 +101,106 @@ jobs:
         run: |
           cp -r meal_recommendation/* $GITHUB_WORKSPACE/
 
+      - name: Authenticate with gcloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@main
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           export_default_credentials: true
 
       - name: Deploy Cloud Function
         run: |
-          gcloud functions deploy MEAL_RECOMMENDATION \
+          gcloud functions deploy get_recommendation \
             --runtime python38 \
             --trigger-http \
             --region us-central1
+  deploy_gestionreservacion:
+    needs: tests_gestionreservacion
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'  
+
+      - name: Install dependencies
+        run: |
+          pip install -r reservation/requirements.txt
+
+      - name: Copy function code
+        run: |
+          cp -r reservation/* $GITHUB_WORKSPACE/
+
+      - name: Authenticate with gcloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@main
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          export_default_credentials: true
+
+      - name: Deploy Cloud Function
+        run: |
+          gcloud functions deploy gestionar_reservacion \
+            --runtime python38 \
+            --trigger-http \
+            --region us-central1 \
+            --allow-unauthenticated
+
+  deploy_chatbot:
+    needs: tests_chatbot
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'  
+
+      - name: Install dependencies
+        run: |
+          pip install -r chatbot/requirements.txt
+
+      - name: Copy function code
+        run: |
+          cp -r chatbot/* $GITHUB_WORKSPACE/
+
+      - name: Authenticate with gcloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@main
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          export_default_credentials: true
+
+      - name: Deploy Cloud Function
+        run: |
+          gcloud functions deploy chatbot \
+            --runtime python38 \
+            --trigger-http \
+            --region us-central1 \
+            --allow-unauthenticated
+
