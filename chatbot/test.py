@@ -1,10 +1,10 @@
 import requests
 import json
 
-url = "https://us-west1-groovy-rope-416616.cloudfunctions.net/chatbot"
+url = "https://us-central1-groovy-rope-416616.cloudfunctions.net/chatbot"
 
 data = {
-    "texto": "Estoy muy enojado, este restaurante tiene un pesimo servicio."
+    "texto": "I'm so happy!"
 }
 
 response = requests.get(url, params=data)
