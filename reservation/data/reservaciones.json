@@ -1,3 +1,12 @@
 {
-    "Reservaciones": []
+    "Reservaciones": [
+        {
+            "nombre": "Juan",
+            "cedula": "118670690",
+            "dia": "2024-04-07",
+            "hora": "12:00",
+            "mesa": "8",
+            "id_reservacion": 1
+        }
+    ]
 }

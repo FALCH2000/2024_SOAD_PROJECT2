@@ -7,6 +7,7 @@ import functions_framework
 from markupsafe import escape
 import json
 import uuid
+from google.cloud import storage
 
 def get_last_id():
     """Obtiene el último ID de reservación."""
@@ -19,10 +20,29 @@ def get_last_id():
         last_id = reservacion["id_reservacion"]
     return last_id
 
+def escribir_en_storage(datos, nombre_archivo):
+    """Escribe los datos en un archivo en Google Cloud Storage."""
+    # Inicializa el cliente de Google Cloud Storage
+    storage_client = storage.Client()
+
+    # Obtén el bucket donde almacenarás el archivo
+    bucket = storage_client.bucket('nombre_del_bucket')
+
+    # Crea un objeto Blob en el bucket con el nombre del archivo
+    blob = bucket.blob(nombre_archivo)
+
+    # Convierte los datos a formato JSON
+    datos_json = json.dumps(datos)
+
+    # Escribe los datos en el archivo en el bucket
+    blob.upload_from_string(datos_json)
+
 def obtener_disponibilidad_json():
-    """Obtiene la disponibilidad de las mesas en formato JSON."""
-    with open('./data/disponibilidad.json', 'r') as file:
-        disponibilidad = json.load(file)
+    """Obtiene la disponibilidad de las mesas desde Google Cloud Storage."""
+    storage_client = storage.Client()
+    bucket = storage_client.bucket('nombre_del_bucket')
+    blob = bucket.blob('disponibilidad.json')
+    disponibilidad = json.loads(blob.download_as_string())
     respuesta = {
         "status_code": 200,
         "message": "OK",
@@ -191,7 +211,7 @@ def eliminar_reservacion(nombre, cedula, dia, hora, mesa, reservacion_original):
     return json.dumps(respuesta, ensure_ascii=False)
 
 @functions_framework.http
-def gestionar_reservacion(request):
+def gestionar_reservacion2(request):
     """HTTP Cloud Function.
     Args:
         request (flask.Request): The request object.
@@ -202,6 +222,17 @@ def gestionar_reservacion(request):
         <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
     """
     request_json = request.get_json(silent=True)
+    if request.method == 'OPTIONS':
+        # Allows GET requests from any origin with the Content-Type
+        # header and caches preflight response for an 3600s
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '3600'
+        }
+
+        return ('', 204, headers)
     request_args = request.args
     path = (request.path)
     respuesta = {
@@ -210,7 +241,15 @@ def gestionar_reservacion(request):
         "data": ""
     }
     if path == "/disponibilidad" and request.method == 'GET':
-        return f"{obtener_disponibilidad_json()}"
+        # Set CORS headers for the main request
+        headers = {
+            'Access-Control-Allow-Methods': 'GET',
+            'Access-Control-Allow-Origin': '*',
+            "Access-Control-Allow-Credentials": "true",
+
+        }
+        datos= obtener_disponibilidad_json()
+        return (datos, 200, headers)
     elif path == "/reservar" and request.method == 'POST':
         return f"{hacer_reservacion(request_json['nombre'], request_json['cedula'], request_json['dia'], request_json['hora'], request_json['mesa'])}"
     elif path == "/editar" and request.method == 'PUT':

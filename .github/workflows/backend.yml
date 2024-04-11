@@ -3,15 +3,11 @@ name: Deploy Cloud Functions
 on:
   push:
     branches:
-        - yml_reservation
-        - meal_recommendation
-        - reservation
-        - chatbot
-        - develop
-        - fix-githubworkflow
+        - fix-enablecors
 
 jobs:
   tests_chatbot:
+    needs: tests_mealrecommendation
     runs-on: ubuntu-latest
 
     steps:
@@ -170,11 +166,12 @@ jobs:
 
       - name: Deploy Cloud Function
         run: |
-          gcloud functions deploy gestionar_reservacion \
+          gcloud functions deploy gestionar_reservacion2 \
             --runtime python38 \
             --trigger-http \
             --region us-central1 \
             --allow-unauthenticated
+            --trigger-resource nombre_del_bucket
 
   deploy_chatbot:
     needs: tests_chatbot

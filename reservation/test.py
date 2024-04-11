@@ -2,14 +2,20 @@ import requests
 import json
 
 # Realizar una solicitud GET para obtener la disponibilidad de las mesas
-"""
 url = 'http://localhost:8080/disponibilidad'
 response = requests.get(url)
 print("Estado de la solicitud GET:", response.status_code)
 print("Respuesta del servidor GET:", response.text)
-print("Disponibilidad de mesas:", response.json()["disponibilidad"])
-"""
- 
+print("Disponibilidad de mesas:", response.json()["data"]["disponibilidad"])
+# Ver los encabezados de la respuesta
+print("Headers:")
+print(response.headers)
+
+# Ver el código de estado de la respuesta
+print("\nStatus code:", response.status_code)
+
+exit()
+
 # Realizar una solicitud POST para crear una reservación
 url = 'http://localhost:8080/reservar'
 reservacion_data = {
