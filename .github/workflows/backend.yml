@@ -6,6 +6,8 @@ on:
         - yml_reservation
         - meal_recommendation
         - reservation
+        - chatbot
+        - develop
 
 jobs:
   tests_chatbot:
