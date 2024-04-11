@@ -10,7 +10,8 @@ export class ReservationsService {
   constructor(private http:HttpClient) { }
 
   getDisponibilidad():Observable<any>{
-    const url = 'https://1wqnzfrr-8080.use2.devtunnels.ms/disponibilidad';
+    const url = 'https://us-west1-groovy-rope-416616.cloudfunctions.net/reservacion/disponibilidad';
+    
     return this.http.get<any>(url);
   }
 }

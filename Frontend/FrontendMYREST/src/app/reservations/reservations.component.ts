@@ -18,7 +18,7 @@ export class ReservationsComponent {
   ngOnInit(): void {
     
     this.reservationService.getDisponibilidad().subscribe((data)=>{
-      this.disponibilidad = data;
+      this.disponibilidad = data.data;
       console.log(this.disponibilidad);
     }) 
 
