@@ -47,8 +47,8 @@ jobs:
             --runtime python38 \
             --trigger-http \
             --region us-central1
-    deploy2:
-      runs-on: ubuntu-latest
+  deploy2:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
