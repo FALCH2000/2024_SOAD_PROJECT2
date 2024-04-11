@@ -9,6 +9,7 @@ import { ReservationsComponent } from './reservations/reservations.component';
 import { PrincipalComponent } from './principal/principal.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -20,11 +21,12 @@ import {HashLocationStrategy, LocationStrategy} from "@angular/common";
     PrincipalComponent,
     FeedbackComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule
+    ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
