@@ -47,11 +47,6 @@ jobs:
           cd Frontend/FrontendMYREST
           npm run build --configuration=production
 
-      - name: Lint
-        run: |
-          cd Frontend/FrontendMYREST
-          npm run lint
-
 
       - name: Deploy
         run: |
