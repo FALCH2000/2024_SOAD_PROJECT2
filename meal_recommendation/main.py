@@ -13,6 +13,7 @@ def get_recommendation(request):
         Response object using `make_response`
         <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
     """
+    url = "https://7d78g8kc-5082.use2.devtunnels.ms/api/Meal"
     request_args = request.args
 
     if request_args and 'MealName1' in request_args and 'CourseType1' in request_args:
@@ -21,7 +22,11 @@ def get_recommendation(request):
             "CourseType1": request_args['CourseType1']
         }
     else:
-        return "Error, MealName1 and CourseType1 parameters are required"
+        return {
+            "status_code": 400,
+            "message": "Error, MealName1 and CourseType1 parameters are required",
+            "data": None
+        }
 
     if 'MealName2' in request_args and 'CourseType2' in request_args:
         params = {
@@ -31,12 +36,23 @@ def get_recommendation(request):
             "CourseType2": request_args['CourseType2']
         }
 
-    url = "https://7d78g8kc-5082.use2.devtunnels.ms/api/Meal"
-
     try:
         response = requests.get(url, params=params)
         response.raise_for_status()
         data = response.json()
-        return data
-    except requests.exceptions.RequestException as e:
-        return "Error when performing the query:" + e
+
+        server_response = {
+            "status_code": response.status_code,
+            "message": data['message'],
+            "data": data['data']
+        }
+
+        return server_response
+
+    except requests.exceptions.HTTPError as e:
+        data = response.json()
+        return {
+            "status_code": response.status_code,
+            "message": data['message'],
+            "data": None
+        }
