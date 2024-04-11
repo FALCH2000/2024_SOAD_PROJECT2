@@ -83,8 +83,7 @@ def hacer_reservacion(nombre, cedula, dia, hora, mesa):
                                     "data": ""
                                 }
                                 return json.dumps(respuesta, ensure_ascii=False)
-        with open('./data/disponibilidad.json', 'w') as file:
-            json.dump(disponibilidad, file, indent=4)
+        escribir_en_storage(disponibilidad, 'disponibilidad.json')
 
         # Cargar las reservaciones existentes desde el archivo JSON
         with open('./data/reservaciones.json', 'r') as file:
@@ -93,8 +92,7 @@ def hacer_reservacion(nombre, cedula, dia, hora, mesa):
         reservaciones["Reservaciones"].append(reservacion)
 
         # Guardar las reservaciones actualizadas en el archivo JSON
-        with open('./data/reservaciones.json', 'w') as file:
-            json.dump(reservaciones, file, indent=4)  # Indentación para una mejor legibilidad
+        escribir_en_storage(reservaciones, 'reservaciones.json')
         
         respuesta = {
             "status_code": 200,
@@ -130,8 +128,7 @@ def editar_reservacion(nombre, cedula, dia, hora, mesa, id_reservacion):
                                         "data": ""
                                     }
                                     return json.dumps(respuesta, ensure_ascii=False)
-            with open('./data/disponibilidad.json', 'w') as file:
-                json.dump(disponibilidad, file, indent=4)
+            escribir_en_storage(disponibilidad, 'disponibilidad.json')
 
             # Habilitar disponibilidad de la mesa original
             for disponibilidad_dia in disponibilidad["disponibilidad"]:
@@ -149,13 +146,11 @@ def editar_reservacion(nombre, cedula, dia, hora, mesa, id_reservacion):
                                     }
                                     return json.dumps(respuesta, ensure_ascii=False)
             
-            with open('./data/disponibilidad.json', 'w') as file:
-                json.dump(disponibilidad, file, indent=4)
+            escribir_en_storage(disponibilidad, 'disponibilidad.json')
 
             # eliminar la reservacion original
             reservaciones["Reservaciones"].remove(reservacion)
-            with open('./data/reservaciones.json', 'w') as file:
-                json.dump(reservaciones, file, indent=4)
+            escribir_en_storage(reservaciones, 'reservaciones.json')
             # agregar la reservacion editada
             reservacion["nombre"] = nombre
             reservacion["cedula"] = cedula
@@ -163,8 +158,7 @@ def editar_reservacion(nombre, cedula, dia, hora, mesa, id_reservacion):
             reservacion["hora"] = hora
             reservacion["mesa"] = str(mesa)
             reservaciones["Reservaciones"].append(reservacion)
-            with open('./data/reservaciones.json', 'w') as file:
-                json.dump(reservaciones, file, indent=4)
+            escribir_en_storage(reservaciones, 'reservaciones.json')
             
             respuesta = {
                 "status_code": 200,
@@ -191,12 +185,10 @@ def eliminar_reservacion(nombre, cedula, dia, hora, mesa, reservacion_original):
                             for disponibilidad_mesa in disponibilidad_hora["mesas"]:
                                 if disponibilidad_mesa == str(mesa) and disponibilidad_hora["mesas"][disponibilidad_mesa] == False:
                                     disponibilidad_hora["mesas"][disponibilidad_mesa] = True
-            with open('./data/disponibilidad.json', 'w') as file:
-                json.dump(disponibilidad, file, indent=4)
+            escribir_en_storage(disponibilidad, 'disponibilidad.json')
             
             reservaciones["Reservaciones"].remove(reservacion)
-            with open('./data/reservaciones.json', 'w') as file:
-                json.dump(reservaciones, file, indent=4)
+            escribir_en_storage(reservaciones, 'reservaciones.json')
             respuesta = {
                 "status_code": 200,
                 "message": "OK",
