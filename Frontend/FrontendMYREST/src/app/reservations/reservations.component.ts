@@ -63,4 +63,13 @@ export class ReservationsComponent {
     }
   }
 
+  goBack(){
+    this.selectedHour = "";
+    this.selectedDay = "";
+    this.selectedTable = "";
+    this.name = "";
+    this.id = "";
+
+  }
+
 }
