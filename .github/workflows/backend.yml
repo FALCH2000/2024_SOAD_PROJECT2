@@ -24,6 +24,10 @@ jobs:
         run: |
           pip install -r reservation/requirements.txt
 
+      -name: Copy code
+        run: |
+          cp -r reservation/* $GITHUB_WORKSPACE/
+
       - name: Run tests
         run: |
           pytest reservation
