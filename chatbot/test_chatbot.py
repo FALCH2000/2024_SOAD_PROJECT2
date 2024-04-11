@@ -2,7 +2,7 @@
 import pytest
 
 # Import the module you want to test
-from main import analyze_text, interpret_sentiment, generateAnswer, chatbot_http
+from main import analyze_text, interpret_sentiment, generateAnswer
 
 # Define test cases using PyTest
 def test_analyze_text():
