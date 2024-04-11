@@ -8,6 +8,7 @@ on:
         - reservation
         - chatbot
         - develop
+        - fix-githubworkflow
 
 jobs:
   tests_chatbot:
@@ -21,6 +22,10 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
+
+      - name: Export credential
+        run: |
+          export GOOGLE_APPLICATION_CREDENTIALS=${{ secrets.GCP_SA_KEY }}
 
       - name: Install dependencies
         run: |
@@ -174,6 +179,9 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'  
+      - name: Export credential
+        run: |
+          export GOOGLE_APPLICATION_CREDENTIALS=${{ secrets.GCP_SA_KEY }}
 
       - name: Install dependencies
         run: |
