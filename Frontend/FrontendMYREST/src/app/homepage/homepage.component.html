@@ -2,21 +2,22 @@
 <div>
 <div class="container d-flex align-items-center justify-content-center">
   <div class="container-sm d-flex align-items-center justify-content-center">
+<div *ngIf="!requestDone">
   <div *ngIf="menuData">
     <h2 class="menu-title">Menú del Restaurante</h2>
     <hr>
     <p>Elige cuantas comidas para la recomendacion quieres</p>
-    <select class="form-select" aria-label="Default select example">
-      <option selected>1</option>
-      <option value="1">2</option>
-      
+    <select class="form-select" aria-label="Default select example" [(ngModel)]="cantidadComidas">
+      <option selected value="1">1</option>
+      <option value="2">2</option>
+
     </select>
     <ul>
       <li *ngFor="let category of menuCategories" >
         <h4 class="li-principal">{{ category }}</h4>
         <ul class="menu-columns">
           <li *ngFor="let menuItem of menuData[category]" style="list-style-type: none;">
-            <input type="checkbox" id="{{menuItem.Name}}" [checked]="isSelected(menuItem.Name)" (change)="toggleSelection(menuItem.Name)">
+            <input type="checkbox" id="{{menuItem.Name}}" [checked]="isSelected(menuItem)" (change)="toggleSelection(menuItem)">
 
             <label for="{{menuItem.Name}}">
             {{   menuItem.Name }}
@@ -26,6 +27,12 @@
       </li>
     </ul>
   </div>
+</div>
+<div *ngIf="!requestDone">
+  <p> {{message}} </p>
+  
+</div >
+
 </div>
 </div>
 <div class="container d-flex align-items-center justify-content-center">
