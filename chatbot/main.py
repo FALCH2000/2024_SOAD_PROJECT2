@@ -4,19 +4,24 @@ from markupsafe import escape
 from google.cloud import language_v1
 
 def analyze_text(text):
-    client = language_v1.LanguageServiceClient()
 
-    # The text to analyze
-    document = language_v1.types.Document(
-        content=text, type_=language_v1.types.Document.Type.PLAIN_TEXT
-    )
+    if isinstance(text, str) and len(text) > 5:
+        client = language_v1.LanguageServiceClient()
 
-    # Detects the sentiment of the text
-    sentiment = client.analyze_sentiment(
-        request={"document": document}
-    ).document_sentiment
+        # The text to analyze
+        document = language_v1.types.Document(
+            content=text, type_=language_v1.types.Document.Type.PLAIN_TEXT
+        )
 
-    return sentiment
+        # Detects the sentiment of the text
+        sentiment = client.analyze_sentiment(
+            request={"document": document}
+        ).document_sentiment
+
+        return sentiment
+    else:
+        return 1
+    
 
 # Function to interpret sentiment score
 def interpret_sentiment(score):
@@ -36,7 +41,7 @@ def generateAnswer(kind):
     return responses.get(kind, "Unable to determine sentiment.")
 
 @functions_framework.http
-def chatbot_http(request):
+def chatbot(request):
     request_args = request.args
     path = (request.path)
 
@@ -45,10 +50,36 @@ def chatbot_http(request):
             text = request_args["texto"]
             # ESTAS 2 LINEAS CONSUMEN CREDITOS SI SE USAN
             sentiment = analyze_text(text)
-            kind = interpret_sentiment(sentiment.score)
-            answer = {"answer": generateAnswer(kind)}
-            return json.dumps(answer, ensure_ascii=False) 
+
+            if sentiment != 1:
+                kind = interpret_sentiment(sentiment.score)
+
+                answer = {
+                    "status_code": 200,
+                    "message": "OK",
+                    "data": generateAnswer(kind)
+                }
+            
+                return json.dumps(answer, ensure_ascii=False)
+            else:
+                answer = {
+                    "status_code": 400,
+                    "message": "Bad Request",
+                    "data": "Texto debe tener al menos 5 caracteres"
+                }
+                return json.dumps(answer, ensure_ascii=False)
         else:
-            return json.dumps({"error": "No se ha enviado el texto a analizar"}, ensure_ascii=False)
+            answer = {
+                "status_code": 400,
+                "message": "Bad Request",
+                "data": "Texto no encontrado"
+            }
+            return json.dumps(answer, ensure_ascii=False)
     else:
-        return json.dumps({"error": "Ruta no encontrada"}, ensure_ascii=False)
+        answer = {
+            "status_code": 404,
+            "message": "Not Found",
+            "data": "Ruta no encontrada"
+        }
+
+        return json.dumps(answer, ensure_ascii=False)
