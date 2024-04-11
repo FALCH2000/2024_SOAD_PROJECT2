@@ -9,7 +9,7 @@ print("Estado de la solicitud GET:", response.status_code)
 print("Respuesta del servidor GET:", response.text)
 print("Disponibilidad de mesas:", response.json()["disponibilidad"])
 """
-
+ 
 # Realizar una solicitud POST para crear una reservación
 url = 'http://localhost:8080/reservar'
 reservacion_data = {
