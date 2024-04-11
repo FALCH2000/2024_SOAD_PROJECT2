@@ -54,4 +54,4 @@ jobs:
       - name: Deploy
         run: |
           cd Frontend/FrontendMYREST
-          ngh --dir=Frontend/FrontendMYREST/dist/FrontendMYREST
+          ngh --dir=dist/frontend-myrest
