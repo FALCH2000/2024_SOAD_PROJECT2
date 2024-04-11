@@ -24,7 +24,7 @@ jobs:
         run: |
           pip install -r reservation/requirements.txt
 
-      -name: Copy code
+      - name: Copy code
         run: |
           cp -r reservation/* $GITHUB_WORKSPACE/
 
