@@ -14,7 +14,7 @@ export class HomepageComponent {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.http.get<any>('/assets/menu.json').subscribe(data => {
+    this.http.get<any>('assets/menu.json').subscribe(data => {
       this.menuData = data;
       this.menuCategories = Object.keys(this.menuData);
     });
