@@ -12,7 +12,6 @@ on:
 
 jobs:
   tests_chatbot:
-    if: ${{ github.event_name == 'push' && contains(github.event.commits[*].added, 'chatbot/') || contains(github.event.commits[*].modified, 'chatbot/') }}
     runs-on: ubuntu-latest
 
     steps:
@@ -49,7 +48,6 @@ jobs:
         run: |
           pytest chatbot
   tests_gestionreservacion:
-    if: ${{ github.event_name == 'push' && contains(github.event.commits[*].added, 'reservation/') || contains(github.event.commits[*].modified, 'reservation/') }}
     runs-on: ubuntu-latest
 
     steps:
@@ -73,7 +71,6 @@ jobs:
         run: |
           pytest reservation
   tests_mealrecommendation:
-    if: ${{ github.event_name == 'push' && contains(github.event.commits[*].added, 'meal_recommendation/') || contains(github.event.commits[*].modified, 'meal_recommendation/') }}
     runs-on: ubuntu-latest
 
     steps:
