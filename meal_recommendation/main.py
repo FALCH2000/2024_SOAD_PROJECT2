@@ -1,20 +1,10 @@
 import functions_framework
 import requests
 
+url = "https://7d78g8kc-5082.use2.devtunnels.ms/api/Meal"
 
-@functions_framework.http
-def get_recommendation(request):
-    """HTTP Cloud Function.
-    Args:
-        request (flask.Request): The request object.
-        <https://flask.palletsprojects.com/en/1.1.x/api/#incoming-request-data>
-    Returns:
-        The response text, or any set of values that can be turned into a
-        Response object using `make_response`
-        <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
-    """
-    url = "https://7d78g8kc-5082.use2.devtunnels.ms/api/Meal"
-    request_args = request.args
+
+def call_api(request_args):
 
     if request_args and 'MealName1' in request_args and 'CourseType1' in request_args:
         params = {
@@ -56,3 +46,19 @@ def get_recommendation(request):
             "message": data['message'],
             "data": None
         }
+
+
+@functions_framework.http
+def get_recommendation(request):
+    """HTTP Cloud Function.
+    Args:
+        request (flask.Request): The request object.
+        <https://flask.palletsprojects.com/en/1.1.x/api/#incoming-request-data>
+    Returns:
+        The response text, or any set of values that can be turned into a
+        Response object using `make_response`
+        <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
+    """
+    request_args = request.args
+
+    return call_api(request_args)
